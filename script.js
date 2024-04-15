@@ -1,18 +1,22 @@
 const searchBox = document.getElementById('input');
 const searchButton = document.getElementById('buton');
 const weicon = document.getElementById('icon');
-
+var con = false
 
 async function check(city) {
-    if (localStorage.myCity.toLowerCase() == searchBox.value.toLowerCase() && localStorage.when != null && parseInt(localStorage.when) + 60000 > Date.now()) {
+    if (localStorage.when != null && parseInt(localStorage.when) + 60000 > Date.now()) {
+        if(
+            localStorage.myCity.toLowerCase() == searchBox.value.toLowerCase()
+        ){
         document.getElementById("temp").innerHTML = localStorage.myTemperature;
         document.getElementById("city").innerHTML = localStorage.myCity;
         document.getElementById("humidity").innerHTML = localStorage.myHumidity;
         document.getElementById("speed").innerHTML = localStorage.myWind;
         document.getElementById('meta').innerHTML = localStorage.myDescription;
         weicon.src = localStorage.myIcon;
-    }
-    else {
+    }}
+    else{con=true}
+    if(con) {
         await fetch('https://api.openweathermap.org/data/2.5/weather?units=metric&q=' + city + '&appid=c51e3ce6274304f58ee7544c87075370')
             .then(response => response.json())
             .then(response => {
